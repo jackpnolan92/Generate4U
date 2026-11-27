@@ -210,6 +210,13 @@ Implementation:
 
 Contributions from [@mrdavearms](https://github.com/mrdavearms), newest first. Each entry says what changed and why, so the reasoning is visible without reading the diff.
 
+### Stop the browser remembering student names
+In the browser version, the Student Name box asked Chrome and Edge to remember what
+was typed (`autocomplete="name"`). On a shared school computer, the next person to
+click that box would see earlier students' names offered as suggestions. The form now
+tells the browser not to keep autofill history for anything typed into it. Nothing
+else changes, and the app's own autosaved draft works as before.
+
 ### Put the install warnings guidance where teachers actually land
 The instructions for getting past the Mac and Windows security warnings only
 existed in this README — but the download buttons, and the app's own update
