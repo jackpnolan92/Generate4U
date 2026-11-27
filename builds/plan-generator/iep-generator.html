@@ -11986,6 +11986,10 @@
    * ------------------------------------------------------------------- */
 
   var DRAFT_KEY = 'generate4u.draft.v1';
+  /* Department privacy guidance: don't keep personal information longer than
+     needed. A draft nobody has come back to in this long is deleted rather than
+     left on a possibly shared computer. Long enough to cover school holidays. */
+  var DRAFT_MAX_AGE_DAYS = 30;
   var DRAFT_DEBOUNCE_MS = 1200;
   var draftSaveTimer = null;
   var draftStorageWarned = false;
@@ -12029,7 +12033,13 @@
       var raw = s.getItem(DRAFT_KEY);
       if (!raw) return null;
       var parsed = JSON.parse(raw);
-      return parsed && parsed.payload ? parsed : null;
+      if (!parsed || !parsed.payload) return null;
+      var savedMs = Date.parse(parsed.savedAt);
+      if (!isFinite(savedMs) || Date.now() - savedMs > DRAFT_MAX_AGE_DAYS * 24 * 60 * 60 * 1000) {
+        s.removeItem(DRAFT_KEY);
+        return null;
+      }
+      return parsed;
     } catch (err) {
       console.warn('Draft could not be read; discarding it.', err);
       try { s.removeItem(DRAFT_KEY); } catch (e) { /* nothing more to do */ }
