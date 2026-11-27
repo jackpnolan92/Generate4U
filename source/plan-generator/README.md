@@ -210,6 +210,13 @@ Implementation:
 
 Contributions from [@mrdavearms](https://github.com/mrdavearms), newest first. Each entry says what changed and why, so the reasoning is visible without reading the diff.
 
+### Start with a blank letterhead instead of one school's
+The planner is now shared with schools across Victoria, but every document
+carried one school's name and logo until a teacher changed it. Documents now have
+no school name or logo until a school sets its own, and the Letterhead button reads
+**Set your letterhead** until then. The page header now says "Generate4U IEP & BSP
+Planner". Anyone who already saved a letterhead on their computer keeps it.
+
 ### Put the install warnings guidance where teachers actually land
 The instructions for getting past the Mac and Windows security warnings only
 existed in this README — but the download buttons, and the app's own update
