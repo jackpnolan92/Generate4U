@@ -111,6 +111,29 @@ and improve something, a pull request back here is welcome but never expected.
 - Your in-progress form is autosaved on your computer and offered back if the
   app closes.
 
+### For school leaders: privacy and approval
+
+Generate4U was built to sit comfortably inside the Victorian Department of
+Education's rules, but a few steps are the school's to take, not the app's.
+
+- **It is not a generative AI tool.** Goals and wording come from a built-in
+  template library on your computer. Nothing is sent to an AI service, so the
+  restrictions in the Department's *Generative Artificial Intelligence* policy on
+  entering student information into AI tools are not triggered. Staff should
+  still read and edit every suggested goal: the plan is their professional
+  judgement, not the app's.
+- **Check approval before school-wide use.** The Department's *Software and
+  Administration Systems* policy covers locally installed software that handles
+  student information. Before adopting Generate4U across a school, check Arc
+  Software or ask the School Software Services Team whether a Privacy Impact
+  Assessment or security review is needed.
+- **File the finished documents properly.** Save completed IEPs and BSPs into
+  your school's approved records system, then delete copies left on laptops,
+  USB sticks or in Downloads. Information created outside Department systems
+  should end up in the school's system of record.
+- **Shared computers.** The autosaved draft lives in the computer's user
+  account. On a shared login, export or discard the draft when you finish.
+
 ### No install allowed? Use the browser version
 
 If you can't install apps on your computer, you can run Generate4U in a web
@@ -209,6 +232,13 @@ Implementation:
 ## Changes by mrdavearms
 
 Contributions from [@mrdavearms](https://github.com/mrdavearms), newest first. Each entry says what changed and why, so the reasoning is visible without reading the diff.
+
+### Tell school leaders what approval and record-keeping steps are theirs
+Added a short section for principals and business managers. It explains that the
+app is not generative AI (so the Department's AI restrictions on student data don't
+apply), that the Software and Administration Systems policy may still call for a
+Privacy Impact Assessment before school-wide use, and that finished plans belong in
+the school's records system rather than on laptops. Documentation only.
 
 ### Put the install warnings guidance where teachers actually land
 The instructions for getting past the Mac and Windows security warnings only
