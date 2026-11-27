@@ -109,7 +109,8 @@ and improve something, a pull request back here is welcome but never expected.
   **No student information is sent, on either system.**
 - The browser version makes no internet connections at all.
 - Your in-progress form is autosaved on your computer and offered back if the
-  app closes.
+  app closes. The draft is deleted once all documents are saved, when you click
+  Discard, or automatically if nobody returns to it within 30 days.
 
 ### No install allowed? Use the browser version
 
@@ -209,6 +210,14 @@ Implementation:
 ## Changes by mrdavearms
 
 Contributions from [@mrdavearms](https://github.com/mrdavearms), newest first. Each entry says what changed and why, so the reasoning is visible without reading the diff.
+
+### Delete autosaved drafts nobody comes back to
+An autosaved draft stayed on the computer until all documents were exported or
+someone clicked Discard. A draft that was simply abandoned held a student's details
+indefinitely, which sits badly with the Department's privacy guidance not to keep
+personal information longer than needed, especially on shared computers. Drafts
+older than 30 days are now deleted when the app opens instead of being offered
+back. Thirty days covers the school holidays; Save Progress files are unaffected.
 
 ### Put the install warnings guidance where teachers actually land
 The instructions for getting past the Mac and Windows security warnings only
