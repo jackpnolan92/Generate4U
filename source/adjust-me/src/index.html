@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <!--
+    Adjust Me: a free, offline tool for Victorian schools (part of Generate4U).
+
+    Privacy: this page is completely self-contained. The document you load is read
+    inside your browser and never leaves the device. The policy below stops the page
+    from making any network connection at all. Every library is inside this file.
+  -->
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data:; font-src data:; connect-src 'none'; form-action 'none'; base-uri 'none'; object-src 'none'" />
+  <meta name="referrer" content="no-referrer" />
+  <meta name="robots" content="noindex, nofollow" />
+  <meta name="color-scheme" content="light" />
+  <title>Adjust Me</title>
+  <style>
+/*__APP_CSS__*/
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header class="top">
+      <div>
+        <h1>Adjust Me</h1>
+        <p class="lead">Load a worksheet, tick the adjustments in the student's Disability Inclusion Profile, and download an adjusted copy.</p>
+      </div>
+      <p class="privacy-pill" title="The document is read inside this browser. Nothing is uploaded.">Works offline &middot; nothing leaves this device</p>
+    </header>
+
+    <!-- Step 1: load -->
+    <section id="load-step" class="card load-card">
+      <h2>1. Choose a document</h2>
+      <label id="drop" class="drop" for="file">
+        <input id="file" type="file" accept=".docx,.pdf,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document" />
+        <span class="drop-big">Drop a Word or PDF file here</span>
+        <span class="drop-small">or click to choose one (.docx or .pdf)</span>
+      </label>
+      <p class="hint"><strong>Google Doc?</strong> Open it in Google Docs, choose <em>File &rarr; Download &rarr; Microsoft Word (.docx)</em>, then load that file here. Adjust Me can't open Google Docs links, because it never goes online.</p>
+      <p class="hint"><strong>Older .doc file?</strong> Open it in Word and use <em>Save As &rarr; Word Document (.docx)</em> first.</p>
+      <div class="row">
+        <button type="button" class="btn btn-secondary" id="sample-btn">Try a made-up sample worksheet</button>
+      </div>
+      <p id="load-msg" class="msg" role="status" aria-live="polite"></p>
+    </section>
+
+    <!-- Step 2 + 3: adjust and preview -->
+    <section id="work" class="work" hidden>
+      <aside class="panel card" aria-label="Adjustments">
+        <div class="panel-head">
+          <h2>2. Tick the adjustments</h2>
+          <p class="file-name" id="file-name"></p>
+        </div>
+
+        <div class="presets">
+          <p class="mini-label">Quick start (you can change anything after)</p>
+          <div class="preset-grid">
+            <button type="button" class="chip" data-preset="dyslexia">Dyslexia-friendly</button>
+            <button type="button" class="chip" data-preset="vision">Low vision</button>
+            <button type="button" class="chip" data-preset="reading">Reading support</button>
+            <button type="button" class="chip" data-preset="attention">Attention &amp; processing</button>
+            <button type="button" class="chip" data-preset="writing">Writing &amp; fine motor</button>
+            <button type="button" class="chip chip-plain" data-preset="reset">Clear all</button>
+          </div>
+        </div>
+
+        <details class="grp" open>
+          <summary>Text and layout</summary>
+          <div class="opt">
+            <label for="o-font">Font</label>
+            <select id="o-font" data-key="font">
+              <option value="Arial">Arial</option>
+              <option value="Verdana">Verdana</option>
+              <option value="Century Gothic">Century Gothic</option>
+              <option value="Comic Sans MS">Comic Sans MS</option>
+              <option value="Tahoma">Tahoma</option>
+              <option value="Calibri">Calibri</option>
+            </select>
+            <p class="why">Clear, rounded sans-serif fonts are easier to decode.</p>
+          </div>
+          <div class="opt">
+            <label for="o-size">Text size</label>
+            <select id="o-size" data-key="size">
+              <option value="11">11 pt (smaller)</option>
+              <option value="12">12 pt (standard)</option>
+              <option value="14">14 pt (larger)</option>
+              <option value="16">16 pt</option>
+              <option value="18">18 pt (enlarged)</option>
+              <option value="20">20 pt</option>
+              <option value="24">24 pt (large print)</option>
+            </select>
+          </div>
+          <div class="opt">
+            <label for="o-line">Line spacing</label>
+            <select id="o-line" data-key="lineSpacing">
+              <option value="1.15">Standard</option>
+              <option value="1.5">1.5 lines</option>
+              <option value="2">Double</option>
+            </select>
+          </div>
+          <div class="opt">
+            <label for="o-letter">Letter and word spacing</label>
+            <select id="o-letter" data-key="letterSpacing">
+              <option value="0">Standard</option>
+              <option value="0.05">Wider</option>
+              <option value="0.1">Widest</option>
+            </select>
+          </div>
+          <div class="opt">
+            <label for="o-tint">Page colour</label>
+            <select id="o-tint" data-key="tint">
+              <option value="none">White</option>
+              <option value="cream">Cream</option>
+              <option value="yellow">Pale yellow</option>
+              <option value="blue">Pale blue</option>
+              <option value="green">Pale green</option>
+              <option value="pink">Pale pink</option>
+              <option value="grey">Pale grey</option>
+            </select>
+            <p class="why">Off-white pages reduce glare. In Word, the colour shows on screen; to print it, save as PDF from here or print on coloured paper.</p>
+          </div>
+          <label class="check"><input type="checkbox" data-key="noItalic" /> <span>Swap italics and underlining for <b>bold</b></span></label>
+          <label class="check"><input type="checkbox" data-key="nameLine" /> <span>Add a Name and Date line at the top</span></label>
+          <label class="check"><input type="checkbox" data-key="pageNumbers" /> <span>Page numbers</span></label>
+        </details>
+
+        <details class="grp" open>
+          <summary>Language and reading</summary>
+          <label class="check"><input type="checkbox" data-key="simplify" /> <span>Use simpler words and shorter sentences</span></label>
+          <p class="why indent">Swaps about 150 hard words and phrases for plain ones (e.g. <i>approximately</i> &rarr; <i>about</i>) and splits very long sentences. It follows fixed rules, not AI, so always read the result. Changes are highlighted in the preview.</p>
+          <label class="check"><input type="checkbox" data-key="boldVerbs" /> <span>Bold the instruction words (<b>explain</b>, <b>circle</b>, <b>not</b>&hellip;)</span></label>
+          <label class="check"><input type="checkbox" data-key="keywords" /> <span>Add a key words box at the top</span></label>
+          <div class="indent" id="kw-wrap">
+            <label for="o-kw" class="mini-label">One word per line. Add a meaning after a dash if you like.</label>
+            <textarea id="o-kw" data-key="keywordText" rows="4" placeholder="evaporation - water turning into a gas&#10;condensation - gas turning back into water"></textarea>
+            <button type="button" class="btn btn-small" id="kw-suggest">Suggest long words from the document</button>
+          </div>
+        </details>
+
+        <details class="grp" open>
+          <summary>Chunking and organisation</summary>
+          <div class="opt">
+            <label for="o-chunk">Break up paragraphs</label>
+            <select id="o-chunk" data-key="chunk">
+              <option value="off">No</option>
+              <option value="pairs">Two sentences per chunk</option>
+              <option value="sentence">One sentence per line</option>
+            </select>
+          </div>
+          <label class="check"><input type="checkbox" data-key="boxes" /> <span>Put each question in its own box</span></label>
+          <label class="check"><input type="checkbox" data-key="onePerPage" /> <span>One question per page</span></label>
+          <label class="check"><input type="checkbox" data-key="checklist" /> <span>Tick box beside each question (&#9744;)</span></label>
+        </details>
+
+        <details class="grp" open>
+          <summary>Questions and workload</summary>
+          <label class="check"><input type="checkbox" data-key="reduce" /> <span>Reduce the number of questions</span></label>
+          <div class="indent" id="q-wrap">
+            <p class="mini-label" id="q-count"></p>
+            <div class="row tight">
+              <button type="button" class="btn btn-small" data-keep="all">Keep all</button>
+              <button type="button" class="btn btn-small" data-keep="half">First half</button>
+              <button type="button" class="btn btn-small" data-keep="alt">Every second one</button>
+            </div>
+            <ol class="q-list" id="q-list"></ol>
+            <label class="check"><input type="checkbox" data-key="renumber" /> <span>Renumber the questions that are left</span></label>
+          </div>
+        </details>
+
+        <details class="grp" open>
+          <summary>Writing and working space</summary>
+          <label class="check"><input type="checkbox" data-key="space" /> <span>Extra space to write after each question</span></label>
+          <div class="indent opt-row" id="space-wrap">
+            <select data-key="spaceLines" aria-label="How much space">
+              <option value="3">3 lines</option>
+              <option value="5">5 lines</option>
+              <option value="8">8 lines</option>
+              <option value="12">12 lines</option>
+            </select>
+            <select data-key="spaceStyle" aria-label="Space style">
+              <option value="lines">Ruled lines</option>
+              <option value="box">Blank box</option>
+            </select>
+            <select data-key="lineGap" aria-label="Line height">
+              <option value="std">Standard lines</option>
+              <option value="wide">Wide lines</option>
+              <option value="xwide">Extra-wide lines</option>
+            </select>
+          </div>
+        </details>
+
+        <details class="grp" open>
+          <summary>Visual supports</summary>
+          <label class="check"><input type="checkbox" data-key="icons" /> <span>Picture cues for instructions (&#128214; read, &#9999;&#65039; write, &#128290; calculate&hellip;)</span></label>
+          <div class="opt">
+            <label for="o-img">Pictures in the document</label>
+            <select id="o-img" data-key="imgSize">
+              <option value="same">Keep as they are</option>
+              <option value="bigger">Make bigger</option>
+              <option value="full">Full page width</option>
+              <option value="hide">Remove (fewer distractions)</option>
+            </select>
+          </div>
+        </details>
+
+        <details class="grp offline-note">
+          <summary>What Adjust Me can't do offline</summary>
+          <ul>
+            <li><b>AI rewriting.</b> Properly rewriting text at a lower reading level, or summarising it, needs an AI service on the internet. Adjust Me uses fixed word lists and sentence rules instead.</li>
+            <li><b>Making new pictures</b> to explain the content. It can add picture cues and resize the pictures already there.</li>
+            <li><b>Translating</b> into another language.</li>
+            <li><b>Read aloud.</b> Some computers' voices send text online, so it isn't built in. Use Word's or Edge's own <i>Read Aloud</i> on the downloaded file.</li>
+            <li><b>Scanned PDFs</b> (photos of pages). Reading text from pictures (OCR) isn't included.</li>
+            <li><b>Google Docs links.</b> Download the Google Doc as .docx first.</li>
+            <li><b>Pictures and tables inside PDFs.</b> From a PDF only the text comes across. Use the Word version of a worksheet when you have it.</li>
+          </ul>
+        </details>
+
+        <div class="row panel-foot">
+          <button type="button" class="btn btn-plain" id="forget-btn" title="Forget the adjustment choices saved in this browser">Forget saved choices</button>
+        </div>
+      </aside>
+
+      <div class="preview-col">
+        <div class="toolbar card">
+          <div class="toolbar-title">
+            <h2>3. Check and download</h2>
+            <label class="check small"><input type="checkbox" data-key="showChanges" /> <span>Highlight word changes</span></label>
+          </div>
+          <div class="row">
+            <button type="button" class="btn btn-primary" id="dl-docx">Download Word (.docx)</button>
+            <button type="button" class="btn btn-secondary" id="print-btn">Print or save as PDF</button>
+            <button type="button" class="btn btn-plain" id="restart-btn">Load another file</button>
+          </div>
+          <p id="notes" class="msg" role="status" aria-live="polite"></p>
+        </div>
+        <div class="paper-scroll" id="paper-scroll">
+          <div id="paper" class="paper"></div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="foot">
+      <p>Adjust Me v__VERSION__ &middot; part of Generate4U &middot; Your document is read on this device only and is never saved or sent anywhere. Only your adjustment choices are remembered in this browser.</p>
+    </footer>
+  </div>
+
+  <div id="busy" class="busy" hidden><div class="busy-box"><span class="spinner"></span><span id="busy-text">Reading the document&hellip;</span></div></div>
+
+  <script>
+/*__FFLATE__*/
+  </script>
+  <script>
+/*__PDFJS_WORKER__*/
+  </script>
+  <script>
+/*__PDFJS__*/
+  </script>
+  <script>
+/*__APP_JS__*/
+  </script>
+</body>
+</html>
